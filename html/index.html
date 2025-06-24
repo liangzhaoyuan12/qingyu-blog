@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轻语社区</title>
+    <style>
+        :root {
+            --primary-color: #6C5CE7;
+            --secondary-color: #5649C0;
+            --accent-color: #A29BFE;
+            --light-color: #F8F9FA;
+            --dark-color: #2D3436;
+            --success-color: #00B894;
+            --danger-color: #D63031;
+            --border-radius: 12px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: #F5F6FA;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .header-content {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            color: white;
+            box-shadow: var(--box-shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .post-form {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .post-form:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #E0E0E0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.75rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .post-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .post-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1.75rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #7F8C8D;
+            font-size: 0.9rem;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.85rem;
+            border-radius: 50px;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #C0392B;
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #7F8C8D;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--primary-color);
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(108, 92, 231, 0.2);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 600;
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            transform: translateX(200%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background-color: var(--success-color);
+        }
+
+        .notification.error {
+            background-color: var(--danger-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .header-content {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .post-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .post-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>轻语社区</h1>
+                <p class="subtitle">分享你的想法与见解</p>
+            </div>
+        </header>
+
+        <div class="post-form">
+            <form id="postForm">
+                <div class="form-group">
+                    <label for="postContent">写下你的想法</label>
+                    <textarea id="postContent" placeholder="今天有什么想分享的吗？" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">发布</button>
+            </form>
+        </div>
+
+        <div class="post-list" id="postList">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>加载中...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM元素
+            const postForm = document.getElementById('postForm');
+            const postList = document.getElementById('postList');
+            const postContent = document.getElementById('postContent');
+            const notification = document.getElementById('notification');
+            
+            // 基础URL
+            const baseUrl = 'http://127.0.0.1:8080';
+            
+            // 加载帖子列表
+            loadPosts();
+            
+            // 表单提交
+            postForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const content = postContent.value.trim();
+                
+                if (content) {
+                    createPost(content);
+                }
+            });
+            
+            // 加载帖子函数
+            function loadPosts() {
+                postList.innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>加载中...</p>
+                    </div>
+                `;
+                
+                fetch(`${baseUrl}/getInfo`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('网络响应不正常');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // 这里确保处理的是数组格式的数据
+                        if (Array.isArray(data) && data.length > 0) {
+                            renderPosts(data);
+                        } else {
+                            postList.innerHTML = `
+                                <div class="empty-state">
+                                    <div>📭</div>
+                                    <h3>暂无内容</h3>
+                                    <p>发布第一条动态，开始你的分享吧</p>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        postList.innerHTML = `
+                            <div class="empty-state">
+                                <div>⚠️</div>
+                                <h3>加载失败</h3>
+                                <p>${error.message}</p>
+                            </div>
+                        `;
+                        console.error('获取数据错误:', error);
+                    });
+            }
+            
+            // 渲染帖子列表
+            function renderPosts(posts) {
+                postList.innerHTML = '';
+                
+                // 按ID降序排列，最新的在前面
+                posts.sort((a, b) => b.id - a.id);
+                
+                posts.forEach(post => {
+                    const postElement = createPostElement(post);
+                    postList.appendChild(postElement);
+                });
+            }
+            
+            // 创建帖子元素
+            function createPostElement(post) {
+                const postCard = document.createElement('div');
+                postCard.className = 'post-card';
+                
+                const postContent = document.createElement('div');
+                postContent.className = 'post-content';
+                postContent.textContent = post.info;
+                
+                const postFooter = document.createElement('div');
+                postFooter.className = 'post-footer';
+                
+                const postMeta = document.createElement('div');
+                postMeta.className = 'post-meta';
+                postMeta.textContent = `#${post.id}`;
+                
+                const postActions = document.createElement('div');
+                postActions.className = 'post-actions';
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn btn-danger btn-sm';
+                deleteBtn.textContent = '删除';
+                deleteBtn.addEventListener('click', () => deletePost(post.id));
+                
+                postActions.appendChild(deleteBtn);
+                postFooter.appendChild(postMeta);
+                postFooter.appendChild(postActions);
+                
+                postCard.appendChild(postContent);
+                postCard.appendChild(postFooter);
+                
+                return postCard;
+            }
+            
+            // 创建新帖子
+            function createPost(content) {
+                fetch(`${baseUrl}/insert`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        info: content
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('发布失败');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    showNotification('发布成功', 'success');
+                    postContent.value = '';
+                    loadPosts();
+                })
+                .catch(error => {
+                    showNotification('发布失败: ' + error.message, 'error');
+                    console.error('发布错误:', error);
+                });
+            }
+            
+            // 删除帖子
+            function deletePost(id) {
+                if (confirm('确定要删除这条内容吗？')) {
+                    fetch(`${baseUrl}/delete`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id: id
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('删除失败');
+                        }
+                        return response.json();
+                    })
+                    .then(() => {
+                        showNotification('删除成功', 'success');
+                        loadPosts();
+                    })
+                    .catch(error => {
+                        showNotification('删除失败: ' + error.message, 'error');
+                        console.error('删除错误:', error);
+                    });
+                }
+            }
+            
+            // 显示通知
+            function showNotification(message, type) {
+                notification.textContent = message;
+                notification.className = `notification ${type} show`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

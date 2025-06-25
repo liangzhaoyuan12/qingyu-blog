@@ -13,9 +13,20 @@ html文件需要跟据自己的部署环境进行一定的修改
 由于该项目没有对访问频率和大小进行限制，这只是一个临时项目（我只花了几个小时而已，没有进一步完善的打算）
 因此该项目易受到DDos攻击
 
+后续在暑假的时候有空的话可能会继续完善项目
+
 因此本项目不会开放demo，需要的请自行部署到自己的服务器上
 
-本项目的后端运行在8080端口，若更改请移至src/main/resources/application.yml进行更改
+本项目的后端运行在8080端口， 若更改请移至src/main/resources/application.yml进行更改
+
+数据库blog内的info表结构：
+
+CREATE TABLE `info` (
+`id` int NOT NULL AUTO_INCREMENT,
+`info` text,
+PRIMARY KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 6 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci
+
 
 This is a small blog project that supports adding, deleting, and retrieving information.
 
@@ -35,3 +46,11 @@ Therefore, this project is vulnerable to DDoS attacks
 Therefore, this project will not open a demo, please deploy it to your own server if needed
 
 The backend of this project runs on port 8080. If there are any changes, please move to src/main/resources/application.yml for modification
+
+The info table structure within the database blog:
+
+CREATE TABLE `info` (
+`id` int NOT NULL AUTO_INCREMENT,
+`info` text,
+PRIMARY KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 6 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci
